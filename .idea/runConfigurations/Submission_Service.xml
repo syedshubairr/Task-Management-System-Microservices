@@ -1,0 +1,9 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Submission Service" type="Application" factoryName="Application">
+    <option name="MAIN_CLASS_NAME" value="com.shah.submission_service.SubmissionServiceApplication" />
+    <module name="Submission-Service" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

@@ -1,0 +1,9 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="User Service" type="Application" factoryName="Application">
+    <option name="MAIN_CLASS_NAME" value="com.shah.TaskUserServiceApplication" />
+    <module name="Task-User-Service" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

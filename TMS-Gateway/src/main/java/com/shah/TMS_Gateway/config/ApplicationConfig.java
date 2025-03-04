@@ -1,0 +1,47 @@
+package com.shah.TMS_Gateway.config;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.HttpStatusEntryPoint;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.Arrays;
+
+@Configuration
+@EnableWebSecurity
+public class ApplicationConfig {
+    @Bean
+    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http.sessionManagement(
+                        management -> management
+                                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                ).authorizeHttpRequests(Authorize -> Authorize.anyRequest().permitAll())
+                .csrf(AbstractHttpConfigurer::disable)
+                .exceptionHandling(c -> c.authenticationEntryPoint(
+                        new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)
+                ))
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()));
+//                .httpBasic(Customizer.withDefaults())
+//                .formLogin(Customizer.withDefaults());
+        return http.build();
+    }
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration cfg = new CorsConfiguration();
+        cfg.setAllowedOrigins(Arrays.asList("http://localhost:5173", "https://task-management-system/"));
+        cfg.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
+        cfg.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "Accept"));
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", cfg);
+        return source;
+    }
+}
